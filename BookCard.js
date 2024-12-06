@@ -3,12 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native"
 
 export const BookCard = ({  autor, title, ano }) => {
     return (
-        <Pressable onPress={() => {
-            router.push({
-                pathname: "books/[id]",
-                params: { id: item.id }
-            })
-        }}>
+        
             <View style={styles.card}>
                 <View style={styles.header}>
                     <Text style={styles.title}>
@@ -17,7 +12,7 @@ export const BookCard = ({  autor, title, ano }) => {
                 </View>
                 <Text style={styles.autor}>{autor} e {ano}</Text>
             </View>
-        </Pressable>
+        
     )
 }
 

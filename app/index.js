@@ -28,17 +28,18 @@ export default function Page() {
         <View style={styles.container2}>
           {
             livro.map((item) => (
+              <Pressable onPress={() => {
+                router.push({
+                    pathname: "books/[id]",
+                    params: { id: item.id }
+                })
+            }}>
               <BookCard key={item.id} title={item.titulo} ano={item.ano} autor={item.autor} />
-
+              </Pressable>
             ))
           }
         </View>
       </ScrollView>
-
-
-
-
-
     </View>
   );
 }
@@ -57,8 +58,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#DAA520',
     marginTop: 10,
-   
-   
+
+
   },
   pesquisa: {
     borderWidth: 1,
