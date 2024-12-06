@@ -23,7 +23,7 @@ export const BookCard = ({  autor, title, ano }) => {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: 'white',
+        backgroundColor: 'lightblue',
         padding: 15,
         borderRadius: 10,
         shadowColor: "#000",
