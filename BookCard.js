@@ -10,7 +10,7 @@ export const BookCard = ({  autor, title, ano }) => {
                         {title}
                     </Text>
                 </View>
-                <Text style={styles.autor}>{autor} e {ano}</Text>
+                <Text style={styles.autor}>{autor} - {ano}</Text>
             </View>
         
     )
