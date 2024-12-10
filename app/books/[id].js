@@ -1,14 +1,49 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { getLivroID, BASE_URL } from "../../api/Api";
+import { getLivroID, BASE_URL, alugar } from "../../api/Api";
+
+
 
 
 export default function BooksPage() {
     const { id } = useLocalSearchParams();
     const [livro, setLivro] = useState(null);
-    const [usuario, setUsuario] = useState('');
-    const [nasc, setNasc] = useState('');
+    const [emprestimo, setEmprestimo] = useState ('');
+    const [nome, setNome] = useState('');
+    const [anoNasc, setAnoNasc] = useState('');
+    const [alert1, setAlert1] = useState(false);
+    const [alert2, setAlert2] = useState(false);
+
+    const onMessage = async () => {
+
+        setAlert1(false);
+        setAlert2(false);
+
+        if(anoNasc !== null && nome !== ""){
+        let novoEmprestimo = await alugar(anoNasc, nome);
+        setEmprestimo(novoEmprestimo)
+
+        setNome("");
+        setAnoNasc("");
+
+    } else {
+
+        if (!anoNasc.trim()) {
+          setAlert1(true)
+          setTimeout(() => {
+            setAlert1(false);
+          }, 4000);
+        }
+  
+        if (!nome.trim) {
+          setAlert2(true)
+          setTimeout(() => {
+            setAlert2(false);
+          }, 4000);
+        }
+      }
+    }
 
 
     const livroId = async () => {
@@ -34,7 +69,7 @@ export default function BooksPage() {
                         <View style={style.Cardtitulo}>
                             <Text key="titulo" style={style.titulo}>{livro.titulo}</Text>
                             <View style={style.autorAno}>
-                                <Text key="autor" style={style.autor}>{livro.autor} - <Text key="ano">{livro.ano}</Text></Text>
+                                <Text key="autor" style={style.autor}>{livro.autor} - <Text key="ano">{livro.anoNasc}</Text></Text>
                             </View>
                         </View>
                     </View>
@@ -45,17 +80,21 @@ export default function BooksPage() {
             )}
 
             <View style={style.card2}>
-                <TextInput style={style.input} placeholder="Nome">
+                <TextInput style={style.input} placeholder="Nome" value={nome}
+        onChangeText={setNome}>
                 </TextInput>
-                <TextInput style={style.input} placeholder="Ano de Nascimento">
+                <TextInput style={style.input} placeholder="Ano de Nascimento" value={anoNasc}
+        onChangeText={setNasc}>
                 </TextInput>
 
             </View>
 
             <View style={style.container3}>
                 <TouchableOpacity style={style.botao1}> Voltar </TouchableOpacity>
-                <TouchableOpacity style={style.botao2}> Confirmar </TouchableOpacity>
+                <TouchableOpacity style={style.botao2}  onPress={() => onMessage()}> Confirmar </TouchableOpacity>
             </View>
+
+
 
 
 
@@ -120,7 +159,7 @@ const style = StyleSheet.create({
         justifyContent: "center",
     },
     input: {
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 8,
         fontSize: 24,
         textAlign: 'center',
@@ -140,7 +179,8 @@ const style = StyleSheet.create({
         borderRadius: 8,
         justifyContent: "center",
         textAlign: "center",
-        padding: 16
+        padding: 16,
+        fontFamily: "sans-serif"
     },
     botao2: {
         width: "70%",
@@ -149,7 +189,8 @@ const style = StyleSheet.create({
         borderRadius: 8,
         justifyContent: "center",
         textAlign: "center",
-        padding: 16
+        padding: 16,
+        fontFamily: "sans-serif"
     }
 
 })

@@ -47,5 +47,33 @@ export const getLivroID = async (id) => {
         console.error(error)
         throw error;
     }
-}
+};
+
+export const alugar = async () => {
+    try {
+        let myBody = {
+            idLivro: 0,
+            nome: nome,
+            anoNasc: anoNasc,
+        };
+        const response = await fetch(`${BASE_URL}/api/ControladorLivros/alugar`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(myBody)
+        });
+
+        if (!response.ok) {
+            throw new Error(`POST request failed with status ${response.status}`)
+        }
+
+        const textData = await response.text();
+        return JSON.parse(textData);
+
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+};
 
