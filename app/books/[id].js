@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { getLivroID, BASE_URL, alugar } from "../../api/Api";
 
 
@@ -9,41 +9,45 @@ import { getLivroID, BASE_URL, alugar } from "../../api/Api";
 export default function BooksPage() {
     const { id } = useLocalSearchParams();
     const [livro, setLivro] = useState(null);
-    const [emprestimo, setEmprestimo] = useState ('');
+    const [emprestimo, setEmprestimo] = useState('');
     const [nome, setNome] = useState('');
     const [anoNasc, setAnoNasc] = useState('');
     const [alert1, setAlert1] = useState(false);
     const [alert2, setAlert2] = useState(false);
+
 
     const onMessage = async () => {
 
         setAlert1(false);
         setAlert2(false);
 
-        if(anoNasc !== null && nome !== ""){
-        let novoEmprestimo = await alugar(anoNasc, nome);
-        setEmprestimo(novoEmprestimo)
 
-        setNome("");
-        setAnoNasc("");
+        if (anoNasc.trim() !== " " && nome.trim() !== "") {
+            let novoEmprestimo = await alugar(id, nome, anoNasc);
+            setEmprestimo(novoEmprestimo);
 
-    } else {
+            setNome("");
+            setAnoNasc("");
 
-        if (!anoNasc.trim()) {
-          setAlert1(true)
-          setTimeout(() => {
-            setAlert1(false);
-          }, 4000);
+        } else {
+
+            if (!anoNasc.trim()) {
+                setAlert1(true);
+                setTimeout(() => {
+                    setAlert1(false);
+                }, 4000);
+            }
+
+
+            if (!nome.trim()) {
+                setAlert2(true);
+                setTimeout(() => {
+                    setAlert2(false);
+                }, 4000);
+            }
+
         }
-  
-        if (!nome.trim) {
-          setAlert2(true)
-          setTimeout(() => {
-            setAlert2(false);
-          }, 4000);
-        }
-      }
-    }
+    };
 
 
     const livroId = async () => {
@@ -53,6 +57,7 @@ export default function BooksPage() {
     useEffect(() => {
         livroId()
     }, []);
+
 
     return (
         <View style={style.container}>
@@ -69,7 +74,7 @@ export default function BooksPage() {
                         <View style={style.Cardtitulo}>
                             <Text key="titulo" style={style.titulo}>{livro.titulo}</Text>
                             <View style={style.autorAno}>
-                                <Text key="autor" style={style.autor}>{livro.autor} - <Text key="ano">{livro.anoNasc}</Text></Text>
+                                <Text key="autor" style={style.autor}>{livro.autor} - <Text key="anoNasc">{livro.anoNasc}</Text></Text>
                             </View>
                         </View>
                     </View>
@@ -81,17 +86,25 @@ export default function BooksPage() {
 
             <View style={style.card2}>
                 <TextInput style={style.input} placeholder="Nome" value={nome}
-        onChangeText={setNome}>
+                    onChangeText={setNome}>
                 </TextInput>
                 <TextInput style={style.input} placeholder="Ano de Nascimento" value={anoNasc}
-        onChangeText={setNasc}>
+                    onChangeText={setAnoNasc}>
                 </TextInput>
 
             </View>
 
             <View style={style.container3}>
-                <TouchableOpacity style={style.botao1}> Voltar </TouchableOpacity>
-                <TouchableOpacity style={style.botao2}  onPress={() => onMessage()}> Confirmar </TouchableOpacity>
+                <Pressable style={style.botao1} onPress={() => {
+                    router.push({
+                        pathname: "books/confirm/[id]",
+                        params: { id: item.id }
+                    })
+                }}>
+                    <Text>Voltar</Text>
+                </Pressable>
+
+                <TouchableOpacity style={style.botao2} onPress={() => onMessage()} > <Text>Confirmar</Text> </TouchableOpacity>
             </View>
 
 

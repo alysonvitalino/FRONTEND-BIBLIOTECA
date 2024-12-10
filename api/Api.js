@@ -49,21 +49,22 @@ export const getLivroID = async (id) => {
     }
 };
 
-export const alugar = async () => {
+export const alugar = async (idLivro, nome, anoNasc) => {
     try {
         let myBody = {
-            idLivro: 0,
+            idLivro: idLivro,
             nome: nome,
             anoNasc: anoNasc,
         };
+        console.log(myBody);
         const response = await fetch(`${BASE_URL}/api/ControladorLivros/alugar`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(myBody)
         });
-
+        console.log(response);
         if (!response.ok) {
             throw new Error(`POST request failed with status ${response.status}`)
         }
