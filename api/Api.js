@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5066'
+export const BASE_URL = 'http://localhost:5066'
 
 export const getRequest = async () => {
     try {

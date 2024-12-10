@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TextInput, View } from "react-native";
-import { getLivroID } from "../../api/Api";
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { getLivroID, BASE_URL } from "../../api/Api";
 
 
 export default function BooksPage() {
@@ -17,7 +17,7 @@ export default function BooksPage() {
     }
     useEffect(() => {
         livroId()
-    }, [id]);
+    }, []);
 
     return (
         <View style={style.container}>
@@ -25,14 +25,17 @@ export default function BooksPage() {
                 <>
                     <View style={style.card}>
                         <View style={style.capa}>
-                            {/* <Text key="titulo">{livro.capa}</Text> */}
+                            <Image
+                                source={`${BASE_URL}${livro.capa}`}
+                                style={style.img}
+                            />
                         </View>
-                        <View style={style.titulo}>
-                            {/*<Text key="titulo">{livro.titulo}</Text>*/}
-                        </View>
-                        <View style={style.autorAno}>
-                            {/*<Text key="autor">{livro.autor}</Text>*/}
-                            {/*<Text key="ano">{livro.ano}</Text>*/}
+
+                        <View style={style.Cardtitulo}>
+                            <Text key="titulo" style={style.titulo}>{livro.titulo}</Text>
+                            <View style={style.autorAno}>
+                                <Text key="autor" style={style.autor}>{livro.autor} - <Text key="ano">{livro.ano}</Text></Text>
+                            </View>
                         </View>
                     </View>
 
@@ -43,13 +46,18 @@ export default function BooksPage() {
 
             <View style={style.card2}>
                 <TextInput style={style.input} placeholder="Nome">
-
                 </TextInput>
                 <TextInput style={style.input} placeholder="Ano de Nascimento">
-
                 </TextInput>
 
             </View>
+
+            <View style={style.container3}>
+                <TouchableOpacity style={style.botao1}> Voltar </TouchableOpacity>
+                <TouchableOpacity style={style.botao2}> Confirmar </TouchableOpacity>
+            </View>
+
+
 
 
         </View>
@@ -60,6 +68,7 @@ const style = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#00008B",
+        paddingHorizontal: 35,
     },
     card: {
         flex: 1,
@@ -71,34 +80,77 @@ const style = StyleSheet.create({
         justifyContent: "space-between",
         flexDirection: "row",
     },
-    capaImagem: {
-    },
     capa: {
+        flex: 1,
+        marginHorizontal: 5,
+    },
+    img: {
+        width: "100%",
+        height: "100%",
+        borderRadius: 8,
 
+    },
+    Cardtitulo: {
+        flex: 1,
+        backgroundColor: "lightblue",
+        borderRadius: 8,
     },
     titulo: {
-
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "center",
     },
     autorAno: {
-
+        flexDirection: "column",
+        backgroundColor: "lightblue",
+        flex: 1,
+        justifyContent: "center",
+        textAlign: "center",
+        marginHorizontal: 12,
+    },
+    autor: {
+        fontSize: 14,
     },
     card2: {
         flex: 1,
-        backgroundColor: '#20B2AA',
-        padding: 8,
         margin: 16,
-        borderRadius: 8
+        backgroundColor: '#20B2AA',
+        borderRadius: 8,
+        alignItems: "center",
+        justifyContent: "center",
     },
     input: {
         borderWidth: 2,
         borderRadius: 8,
-        fontSize: 20,
+        fontSize: 24,
         textAlign: 'center',
-        marginHorizontal: 30,
-        marginBottom: 30,
         borderColor: '#DAA520',
         color: 'gray',
+        margin: 16,
     },
+    container3: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        margin: 16,
+    },
+    botao1: {
+        width: "25%",
+        height: 50,
+        backgroundColor: "red",
+        borderRadius: 8,
+        justifyContent: "center",
+        textAlign: "center",
+        padding: 16
+    },
+    botao2: {
+        width: "70%",
+        height: 50,
+        backgroundColor: "#32CD32",
+        borderRadius: 8,
+        justifyContent: "center",
+        textAlign: "center",
+        padding: 16
+    }
 
 })
 
