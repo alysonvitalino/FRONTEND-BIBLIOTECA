@@ -56,7 +56,7 @@ export const alugar = async (idLivro, nome, anoNasc) => {
             nome: nome,
             anoNasc: anoNasc,
         };
-        console.log(myBody);
+
         const response = await fetch(`${BASE_URL}/api/ControladorLivros/alugar`, {
             method: "POST",
             headers: {
@@ -64,10 +64,6 @@ export const alugar = async (idLivro, nome, anoNasc) => {
             },
             body: JSON.stringify(myBody)
         });
-        console.log(response);
-        if (!response.ok) {
-            throw new Error(`POST request failed with status ${response.status}`)
-        }
 
         const textData = await response.text();
         return JSON.parse(textData);

@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { getLivroID, BASE_URL, alugar } from "../../api/Api";
@@ -13,7 +13,7 @@ export default function BooksPage() {
     const [anoNasc, setAnoNasc] = useState('');
     const [alert1, setAlert1] = useState(false);
     const [alert2, setAlert2] = useState(false);
-
+    const [Erro, setErro] = useState("");
 
     const onMessage = async () => {
 
@@ -23,30 +23,17 @@ export default function BooksPage() {
 
         if (anoNasc.trim() !== " " && nome.trim() !== "") {
             let novoEmprestimo = await alugar(id, nome, anoNasc);
-                
-            
-            
+            console.log(novoEmprestimo)
             setNome("");
             setAnoNasc("");
 
-        } else {
+            setErro(novoEmprestimo.message || "");
 
-            if (livro.quantidadeEstoque === 0) {
-                setAlert1(true);
-                setTimeout(() => {
-                    setAlert1(false)
-                }, 4000);
-            }
-
-            if (!nome.trim()) {
-                setAlert2(true);
-                setTimeout(() => {
-                    setAlert2(false);
-                }, 4000);
-            }
+            livroId();
 
         }
-    };
+    }
+
 
 
     const livroId = async () => {
@@ -60,6 +47,7 @@ export default function BooksPage() {
 
     return (
         <View style={style.container}>
+
             {livro ? (
                 <>
                     <View style={style.card}>
@@ -93,45 +81,27 @@ export default function BooksPage() {
                 <TextInput style={style.input} value={anoNasc}
                     onChangeText={setAnoNasc}>
                 </TextInput>
-                {
-                    alert1
-                        ?
-                        <Text style={style.errorText}>
-                            Quantidade Insuficiente no Estoque!
-                        </Text>
-                        :
-                        <></>
-                }
-                {
-                    alert2
-                        ?
-                        <Text style={style.errorText}>
-                            Necessário Informar o Nome! 
-                        </Text>
-                        :
-                        <></>
-                }
+                {Erro && (
+                    <>
+                        <Text style={style.errorText}>{Erro}</Text>
+                    </>
+                )}
 
             </View>
 
             <View style={style.container3}>
                 <Pressable style={style.botao1} onPress={() => {
                     router.push({
-                        pathname: "books/confirm/[id]",
-                        params: { id: item.id }
+                        pathname: "/",
                     })
                 }}>
+
+
                     <Text>Voltar</Text>
                 </Pressable>
 
-                <TouchableOpacity style={style.botao2} onPress={() => onMessage()} > <Text>Confirmar</Text> </TouchableOpacity>
+                <TouchableOpacity style={style.botao2} onPress={() => onMessage()} > <Text style={style.confirmar}>Confirmar</Text> </TouchableOpacity>
             </View>
-
-
-
-
-
-
         </View>
     );
 }
@@ -142,9 +112,15 @@ const style = StyleSheet.create({
         backgroundColor: "#00008B",
         paddingHorizontal: 35,
     },
-    errorText:{
-        color: 'red',
+    confirmar: {
+        textAlign: "center",
+    },
+    errorText: {
+        color: 'black',
         fontWeight: "bold",
+        marginLeft: 12,
+        fontSize: 12,
+        textAlign: "center",
 
     },
     texto: {
