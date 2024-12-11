@@ -12,13 +12,11 @@ export default function BooksPage() {
     const [nome, setNome] = useState('');
     const [anoNasc, setAnoNasc] = useState('');
     const [alert1, setAlert1] = useState(false);
-    const [alert2, setAlert2] = useState(false);
     const [Erro, setErro] = useState("");
 
     const onMessage = async () => {
 
         setAlert1(false);
-        setAlert2(false);
 
 
         if (anoNasc.trim() !== " " && nome.trim() !== "") {
@@ -30,6 +28,16 @@ export default function BooksPage() {
             setErro(novoEmprestimo.message || "");
 
             livroId();
+
+            setAlert1(true)
+            setTimeout(() => {
+            setAlert1(false);
+            router.push({
+                pathname: "/",
+            })
+            }, 3000);
+
+            
 
         }
     }
@@ -86,6 +94,15 @@ export default function BooksPage() {
                         <Text style={style.errorText}>{Erro}</Text>
                     </>
                 )}
+                {
+                    alert1 
+                    ? <Text style={style.errorText}>Empréstimo Realizado</Text>
+                    :
+                    <></>
+                }
+                    
+                   
+                
 
             </View>
 

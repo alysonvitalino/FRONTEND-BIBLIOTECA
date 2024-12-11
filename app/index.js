@@ -19,11 +19,8 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Text style={styles.titulo}>Biblioteca</Text>
+      <Text style={styles.titulo}> BIBLIOTECA </Text>
 
-      <TextInput style={styles.pesquisa} placeholder='Pesquisar'>
-
-      </TextInput>
       <ScrollView style={styles.scroll}>
         <View style={styles.container2}>
           {
@@ -57,7 +54,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#DAA520',
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 20,
 
 
   },
