@@ -29,15 +29,19 @@ export default function BooksPage() {
 
             livroId();
 
-            setAlert1(true)
-            setTimeout(() => {
-            setAlert1(false);
-            router.push({
-                pathname: "/",
-            })
-            }, 3000);
+            if (livro.quantidadeEstoque !== 0) {
+                setAlert1(true)
+                setTimeout(() => {
+                    setAlert1(false);
+                    router.push({
+                        pathname: "/",
+                    })
+                }, 3000);
+            }
 
-            
+
+
+
 
         }
     }
@@ -95,14 +99,14 @@ export default function BooksPage() {
                     </>
                 )}
                 {
-                    alert1 
-                    ? <Text style={style.errorText}>Empréstimo Realizado</Text>
-                    :
-                    <></>
+                    alert1
+                        ? <Text style={style.errorText}>Empréstimo Realizado</Text>
+                        :
+                        <></>
                 }
-                    
-                   
-                
+
+
+
 
             </View>
 
