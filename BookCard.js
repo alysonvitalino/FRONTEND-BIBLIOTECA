@@ -1,7 +1,6 @@
-import { router } from "expo-router"
-import { Pressable, StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 
-export const BookCard = ({  autor, title, ano }) => {
+export const BookCard = ({ autor, title, ano }) => {
     return (
         
             <View style={styles.card}>
@@ -10,7 +9,7 @@ export const BookCard = ({  autor, title, ano }) => {
                         {title}
                     </Text>
                 </View>
-                <Text style={styles.autor}>{autor} - {ano}</Text>
+                <Text>{autor} - {ano}</Text>
             </View>
         
     )
